@@ -4,46 +4,42 @@ class Chessboard {
     private int height;
     private int width;
 
-    Chessboard(String height, String width) {
-        this.height = convertArgumentToInt(height);
-        this.width = convertArgumentToInt(width);
+    Chessboard(String height, String width) throws NumberFormatException {
+        this.height = Integer.parseInt(height);
+        this.width = Integer.parseInt(width);
+        if (this.height <= 0 || this.width <= 0) {
+            throw new IllegalArgumentException("Arguments must be larger than zero");
+        }
     }
 
-    void draw() {
-        if (height <= 0 || width <= 0) {
-            System.out.println("Usage: height width\nExample: 4 5");
-            return;
-        }
-
+    String getPicture() {
+        String result;
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (i % 2 == 0) {
                     if (j % 2 == 0) {
-                        System.out.print("*");
+                        stringBuilder.append("*");
                     } else {
-                        System.out.print("   ");
+                        stringBuilder.append("   ");
                     }
                 } else {
                     if (j % 2 == 0) {
-                        System.out.print("  ");
+                        stringBuilder.append("  ");
                     } else {
                         if (j == 1) {
-                            System.out.print("*");
+                            stringBuilder.append("*");
                         } else {
-                            System.out.print(" *");
+                            stringBuilder.append(" *");
                         }
                     }
                 }
             }
-            System.out.println();
+            if (i < height - 1) {
+                stringBuilder.append("\n");
+            }
         }
-    }
-
-    private int convertArgumentToInt(String argument) {
-        try {
-            return Integer.parseInt(argument);
-        } catch (NumberFormatException ex) {
-            return -1;
-        }
+        result = stringBuilder.toString();
+        return result;
     }
 }
